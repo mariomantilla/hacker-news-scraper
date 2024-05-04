@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 
 
 def parse_news_data(html):
-    parsed_html = BeautifulSoup(html)
+    parsed_html = BeautifulSoup(html, 'html.parser')
     news_items = parsed_html.find_all("tr", class_="athing", limit=30)
     parsed_data = [format_news_item_data(item) for item in news_items]
     return parsed_data
@@ -29,7 +29,7 @@ def find_points(item):
     return extract_int(points_tag.string)
 
 def find_comments(item):
-    comments_tag = item.find_next_sibling('tr').find("a", text=re.compile(r"comments"))
+    comments_tag = item.find_next_sibling('tr').find("a", string=re.compile(r"comments"))
     return extract_int(comments_tag.string)
 
 def extract_int(string):
