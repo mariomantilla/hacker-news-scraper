@@ -25,11 +25,16 @@ def find_title(item):
     return title_tag.a.string.strip()
 
 def find_points(item):
+    ''' Returns the number of points or None if it is a job offer '''
     points_tag = item.find_next_sibling('tr').find("span", class_="score")
-    return extract_int(points_tag.string)
+    return extract_int(points_tag.string) if points_tag else None
 
 def find_comments(item):
+    ''' Returns 0 if there are no comments or None if it is a job offer '''
     comments_tag = item.find_next_sibling('tr').find("a", string=re.compile(r"comments"))
+    if not comments_tag:
+        discuss_tag = item.find_next_sibling('tr').find("a", string="discuss")
+        return 0 if discuss_tag else None
     return extract_int(comments_tag.string)
 
 def extract_int(string):
