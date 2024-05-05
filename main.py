@@ -1,3 +1,4 @@
+import json
 from data_processing.filtering import filter_by_words_in_title, sort_items
 from data_processing.parsing import parse_news_data
 from data_processing.web_crawling import get_source_code
@@ -10,8 +11,12 @@ def main():
     short_titles_items = filter_by_words_in_title(parsed_data, lambda c: c <= 5)
     long_titles_items_by_comments = sort_items(long_titles_items, 'comments_count')
     short_titles_items_by_points = sort_items(short_titles_items, 'points')
-    return parsed_data, long_titles_items_by_comments, short_titles_items_by_points
+    return {
+        'all_entries': parsed_data,
+        'more_than_five_words_in_title_by_comments': long_titles_items_by_comments,
+        'less_than_five_words_in_title_by_points': short_titles_items_by_points,
+    }
 
 if __name__ == "__main__":
     data = main()
-    print(data)
+    print(json.dumps(data))

@@ -14,13 +14,17 @@ def test_integration(monkeypatch):
 
     data = main()
 
-    assert len(data[0]) == 30
-    assert len(data[0]) == len(data[1]) + len(data[2])
-    assert all(len(item['title'].split()) > 5 for item in data[1])
-    assert all(len(item['title'].split()) <= 5 for item in data[2])
+    all_entries = data['all_entries']
+    long_titles = data['more_than_five_words_in_title_by_comments']
+    short_titles = data['less_than_five_words_in_title_by_points']
 
-    comments = [item['comments_count'] for item in data[1] if item['comments_count'] is not None]
-    points = [item['points'] for item in data[2] if item['points'] is not None]
+    assert len(all_entries) == 30
+    assert len(all_entries) == len(long_titles) + len(short_titles)
+    assert all(len(item['title'].split()) > 5 for item in long_titles)
+    assert all(len(item['title'].split()) <= 5 for item in short_titles)
+
+    comments = [item['comments_count'] for item in long_titles if item['comments_count'] is not None]
+    points = [item['points'] for item in short_titles if item['points'] is not None]
 
     assert is_sorted(comments)
     assert is_sorted(points)
