@@ -9,7 +9,6 @@ def mock_response(status, text, *args, **kwargs):
     response._content = text.encode('utf-8')
     return response
 
-
 def test_get_source_code_success(monkeypatch):
 
     def good_response_mock(*args, **kwargs):
