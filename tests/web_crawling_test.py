@@ -1,6 +1,6 @@
 import pytest
 import requests
-from web_crawling import get_source_code
+from data_processing.web_crawling import get_source_code
 
 
 def mock_response(status, text, *args, **kwargs):

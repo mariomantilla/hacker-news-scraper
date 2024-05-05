@@ -1,4 +1,4 @@
-from parsing import parse_news_data
+from data_processing.parsing import parse_news_data
 
 
 def test_parse_news_data():

@@ -1,5 +1,5 @@
-from parsing import parse_news_data
-from web_crawling import get_source_code
+from data_processing.parsing import parse_news_data
+from data_processing.web_crawling import get_source_code
 
 
 def main():
