@@ -11,28 +11,32 @@ def test_parse_news_data():
         </table>
     '''
     parsed_data = parse_news_data(html)
-    assert len(parsed_data) == 3
     assert parsed_data == [
-        {
-            'order': 1,
-            'title': "Title one",
-            'points': 123,
-            'comments_count': 5
-        },
-        {
-            'order': 2,
-            'title': "Title two",
-            'points': 55,
-            'comments_count': 6
-        },
-        {
-            'order': 3,
-            'title': "Title three",
-            'points': 2,
-            'comments_count': 7
-        }
+        expected_news_data_item(1, "Title one", 123, 5),
+        expected_news_data_item(2, "Title two", 55, 6),
+        expected_news_data_item(3, "Title three", 2, 7)
     ]
 
+def test_parse_news_data_with_too_many_items():
+
+    news_items_html = '\n'.join([news_item_template(123, 1, "Title one", 123, 5)]*40)
+    html = f'''
+        <table border="0" cellpadding="0" cellspacing="0">
+        {news_items_html}
+        </table>
+    '''
+    parsed_data = parse_news_data(html)
+    assert parsed_data == [
+        expected_news_data_item(1, "Title one", 123, 5)
+    ]*30
+
+def expected_news_data_item(order, title, points, comments_count):
+    return {
+        'order': order,
+        'title': title,
+        'points': points,
+        'comments_count': comments_count
+    }
 
 def news_item_template(news_id, order, title, points, comments_count):
     return f'''
